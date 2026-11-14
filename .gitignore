@@ -1,0 +1,8 @@
+/.backup/
+/.github/modernize/
+/.vscode/
+/criar_projetos.py
+/README.md
+/VALIDACAO.md
+**/target/
+*.log
