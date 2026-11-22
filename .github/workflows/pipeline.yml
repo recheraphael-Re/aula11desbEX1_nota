@@ -1,0 +1,33 @@
+name: Build e testes Java
+on:
+  push:
+    branches: [main, develop, 'feature/**']
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  testes:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: exercicio1-monitoramento-maquinas
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+          cache-dependency-path: exercicio1-monitoramento-maquinas/pom.xml
+      - name: Compilar, testar e empacotar
+        run: mvn -B verify
+      - name: Disponibilizar JAR e resultados dos testes
+        uses: actions/upload-artifact@v4
+        with:
+          name: monitoramento
+          path: |
+            exercicio1-monitoramento-maquinas/target/*.jar
+            exercicio1-monitoramento-maquinas/target/surefire-reports/TEST-*.xml
+          if-no-files-found: error
